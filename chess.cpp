@@ -72,7 +72,7 @@ class Player {
                 {
                     currentMove[0] = -1;
                 }
-                else if(number = 2)
+                else
                 {
                     currentMove[0] = 1;
                 }
@@ -84,7 +84,7 @@ class Player {
                 {
                     currentMove[0] = 1;
                 }
-                else if(number = 2)
+                else
                 {
                     currentMove[0] = -1;
                 }
@@ -96,7 +96,7 @@ class Player {
                 {
                     currentMove[1] = -1;
                 }
-                else if(number = 2)
+                else
                 {
                     currentMove[1] = 1;
                 }
@@ -108,7 +108,7 @@ class Player {
                 {
                     currentMove[1] = 1;
                 }
-                else if(number = 2)
+                else
                 {
                     currentMove[1] = -1;
                 }
@@ -190,6 +190,7 @@ class GameBoard {
         }
         bool isValidMove(Player &p, Player &opponent)
         {
+            //cout<<"ERROR HERE";
             int temp = grid[p.position[p.currentCharacter][0]][p.position[p.currentCharacter][1]];
             int x = p.position[p.currentCharacter][0]+p.currentMove[0];
             int y = p.position[p.currentCharacter][1]+p.currentMove[1];
@@ -280,3 +281,4 @@ int main() {
 
     grid.displayBoard(p1,p2);
     return 0;
+}
