@@ -1,4 +1,4 @@
-
+#include <iostream>
 #include <bits/stdc++.h>
 
 using namespace std;
@@ -24,7 +24,7 @@ class Player {
             characters[key] = name;
             position[name] = {gridx, gridy};
         }
-        void characterKilled(int key)
+        void killCharacter(int key)
         {
             position.erase(characters[key]);
             characters.erase(key);
@@ -53,6 +53,7 @@ class Player {
             string playerMove;
             cin>>playerMove;
             currentCharacter = "";
+            int i = 0;
             while(playerMove[i]!=':')
             {
                 currentCharacter = currentCharacter + playerMove[i];
@@ -63,8 +64,9 @@ class Player {
             while(i<playerMove.size())
             {
                 movePosition = movePosition + playerMove[i];
+                i++;
             }
-            if(movePosition == 'F')
+            if(movePosition == "F")
             {
                 if(number = 1)
                 {
@@ -76,7 +78,7 @@ class Player {
                 }
                 currentMove[1] = 0;
             }
-            else if(movePosition == 'B')
+            else if(movePosition == "B")
             {
                 if(number = 1)
                 {
@@ -88,7 +90,7 @@ class Player {
                 }
                 currentMove[1] = 0;
             }
-            else if(movePosition == 'L')
+            else if(movePosition == "L")
             {
                 if(number = 1)
                 {
@@ -100,7 +102,7 @@ class Player {
                 }
                 currentMove[0] = 0;
             }
-            else if(movePosition == 'R')
+            else if(movePosition == "R")
             {
                 if(number = 1)
                 {
@@ -116,7 +118,6 @@ class Player {
                 cout<<"Invalid Move Name";
                 cout<<endl<<"Enter move again"<<endl;
                 newMove();
-                return 0;
             }
         }
 };
@@ -189,20 +190,45 @@ class GameBoard {
         }
         bool isValidMove(Player &p, Player &opponent)
         {
-            int x = p.position[0]+p.currentMove[0];
-            int y = p.position[1]+p.currentMove[1];
+            int temp = grid[p.position[p.currentCharacter][0]][p.position[p.currentCharacter][1]];
+            int x = p.position[p.currentCharacter][0]+p.currentMove[0];
+            int y = p.position[p.currentCharacter][1]+p.currentMove[1];
             if(x>=5 || y>=5)
             {
                 return false;
             }
-            
             if(grid[x][y] == 0)
             {
-                grid[p.position[0], p.position[1]] = 0
-                p.position[0] = x;
-                p.position[1] = y;
+                grid[p.position[p.currentCharacter][0]][p.position[p.currentCharacter][1]] = 0;
+                p.position[p.currentCharacter][0]= x;
+                p.position[p.currentCharacter][1] = y;
             }
-            
+            if(grid[x][y]>0 && grid[x][y]<6)
+            {
+                if(p.number == 1)
+                {
+                    return false;
+                }
+                else {
+                    opponent.killCharacter(grid[x][y]);
+                    p.position[p.currentCharacter][0] = x;
+                    p.position[p.currentCharacter][1] = y;
+                }
+            }
+            if(grid[x][y]>5 && grid[x][y]<11)
+            {
+                if(p.number == 2)
+                {
+                    return false;
+                }
+                else{
+                    opponent.killCharacter(grid[x][y]);
+                    p.position[p.currentCharacter][0] = x;
+                    p.position[p.currentCharacter][1] = y;
+                }
+            }
+            grid[x][y] = temp;
+            return true;
         }
 };
 
@@ -220,18 +246,37 @@ int main() {
     
     cout<<"Player2 Input: ";
     grid.playerInput(p2, 6, 0);
+    grid.displayBoard(p1,p2);
     
-    while()
+    while(true)
     {
-        cout<< "Player1 Input";
+        cout<< "Player1 Move: ";
         p1.newMove();
-        while(!grid.isValidMove(p1))
+        while(!grid.isValidMove(p1, p2))
         {
             cout<<"Invalid Move";
             p1.newMove();
         }
+        if(!p2.isAnyCharacterAlive())
+        {
+            cout<<"P1 WON";
+            break;
+        }
+        grid.displayBoard(p1, p2);
+        cout<<"Player2 Move: ";
+        p2.newMove();
+        while(!grid.isValidMove(p2,p1))
+        {
+            cout<<"Invalid Move";
+            p2.newMove();
+        }
+        if(!p1.isAnyCharacterAlive())
+        {
+            cout<<"P2 Won";
+            break;
+        }
+        grid.displayBoard(p1, p2);
     }
 
     grid.displayBoard(p1,p2);
     return 0;
-}
