@@ -51,7 +51,8 @@ class Player {
         void newMove()
         {
             string playerMove;
-            cin>>playerMove;
+            getline(cin,playerMove);
+            //cout<<"NO ISSUE";
             currentCharacter = "";
             int i = 0;
             while(playerMove[i]!=':')
@@ -66,21 +67,23 @@ class Player {
                 movePosition = movePosition + playerMove[i];
                 i++;
             }
+            cout<<endl<<number<<endl;
             if(movePosition == "F")
             {
-                if(number = 1)
+                if(number == 1)
                 {
                     currentMove[0] = -1;
                 }
                 else
                 {
+                    //cout<<"WORKING";
                     currentMove[0] = 1;
                 }
                 currentMove[1] = 0;
             }
             else if(movePosition == "B")
             {
-                if(number = 1)
+                if(number == 1)
                 {
                     currentMove[0] = 1;
                 }
@@ -92,7 +95,7 @@ class Player {
             }
             else if(movePosition == "L")
             {
-                if(number = 1)
+                if(number == 1)
                 {
                     currentMove[1] = -1;
                 }
@@ -104,7 +107,7 @@ class Player {
             }
             else if(movePosition == "R")
             {
-                if(number = 1)
+                if(number == 1)
                 {
                     currentMove[1] = 1;
                 }
@@ -211,6 +214,7 @@ class GameBoard {
                     return false;
                 }
                 else {
+                    grid[p.position[p.currentCharacter][0]][p.position[p.currentCharacter][1]] = 0;
                     opponent.killCharacter(grid[x][y]);
                     p.position[p.currentCharacter][0] = x;
                     p.position[p.currentCharacter][1] = y;
@@ -223,6 +227,7 @@ class GameBoard {
                     return false;
                 }
                 else{
+                    grid[p.position[p.currentCharacter][0]][p.position[p.currentCharacter][1]] = 0;
                     opponent.killCharacter(grid[x][y]);
                     p.position[p.currentCharacter][0] = x;
                     p.position[p.currentCharacter][1] = y;
@@ -236,8 +241,8 @@ class GameBoard {
 int main() {
     // Write C++ code here
     GameBoard grid;
-    Player p1("A",1);
-    Player p2("B",2);
+    Player p1("A", 1);
+    Player p2("B", 2);
     grid.displayBoard(p1, p2);
     
     cout<<"Player1 Input: ";
@@ -274,7 +279,6 @@ int main() {
         if(!p1.isAnyCharacterAlive())
         {
             cout<<"P2 Won";
-			
             break;
         }
         grid.displayBoard(p1, p2);
