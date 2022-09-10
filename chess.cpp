@@ -274,6 +274,7 @@ int main() {
         if(!p1.isAnyCharacterAlive())
         {
             cout<<"P2 Won";
+			
             break;
         }
         grid.displayBoard(p1, p2);
